@@ -51,8 +51,9 @@ public class JwtUtil {
 
     // 3. VALIDAR TOKEN
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String USERNAME_FROM_TOKEN = extractUsername(token);
+        final String USERNAME_FROM_DETAILS = userDetails.getUsername();
+        return (USERNAME_FROM_TOKEN.equalsIgnoreCase(USERNAME_FROM_DETAILS)) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
