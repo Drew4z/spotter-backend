@@ -1,5 +1,6 @@
 package com.spotter_proyect.spotter.core.shared.entities;
 
+import com.spotter_proyect.spotter.core.shared.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,7 +32,8 @@ public class UserEntity {
     // Roles: "ADMIN", "CLIENT", "TRAINER"
     // Usamos String simple para no complicarnos con tablas extra de roles
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
