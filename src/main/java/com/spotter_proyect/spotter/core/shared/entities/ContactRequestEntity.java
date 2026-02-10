@@ -23,9 +23,9 @@ public class ContactRequestEntity {
     private TrainerEntity trainer;
 
     @Enumerated(EnumType.STRING)
-    private RequestStatus status; // PENDING, ACCEPTED, REJECTED
+    private RequestStatus status;
 
-    private String message; // "Hola, me interesa..."
+    private String message;
 
     private LocalDateTime createdAt;
 
