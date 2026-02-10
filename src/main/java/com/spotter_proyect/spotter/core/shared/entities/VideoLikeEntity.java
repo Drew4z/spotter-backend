@@ -27,10 +27,11 @@ public class VideoLikeEntity {
     @JoinColumn(name = "video_id", nullable = false)
     private VideoEntity video;
 
-    private LocalDateTime likedAt = LocalDateTime.now();
+    private LocalDateTime likedAt;
 
     public VideoLikeEntity(UserEntity user, VideoEntity video) {
         this.user = user;
         this.video = video;
+        likedAt = LocalDateTime.now();
     }
 }
