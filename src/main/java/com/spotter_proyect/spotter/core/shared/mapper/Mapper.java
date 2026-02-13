@@ -4,10 +4,13 @@ package com.spotter_proyect.spotter.core.shared.mapper;
 import com.spotter_proyect.spotter.core.shared.entities.ClientEntity;
 import com.spotter_proyect.spotter.core.shared.entities.TrainerEntity;
 import com.spotter_proyect.spotter.core.shared.entities.UserEntity;
+import com.spotter_proyect.spotter.core.shared.entities.VideoEntity;
 import com.spotter_proyect.spotter.core.shared.model.Client;
 import com.spotter_proyect.spotter.core.shared.model.Trainer;
 import com.spotter_proyect.spotter.core.shared.model.User;
 import com.spotter_proyect.spotter.core.useCases.auth.register.infrastructure.DTO.RegisterRequestDTO;
+import com.spotter_proyect.spotter.core.useCases.trainer.videos.sharedVideos.DTO.VideoRequest;
+import com.spotter_proyect.spotter.core.useCases.trainer.videos.sharedVideos.DTO.VideoResponse;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -112,5 +115,31 @@ public class Mapper {
         throw new IllegalArgumentException("Entidad desconocida: " + userEntity.getClass());
     }
 
+    //  MAPPER VIDEOS METHODS
 
+    public VideoEntity uploadVideoRequestToEntity(VideoRequest request, UserEntity trainer){
+
+        VideoEntity video = new VideoEntity();
+        video.setTitle(request.title());
+        video.setVideoUrl(request.videoUrl());
+        video.setCategory(request.category());
+        video.setCreatedAt(LocalDateTime.now());
+        video.setLikesCount(0);
+        video.setTrainer(trainer); // A
+
+        return video;
+    }
+
+    public VideoResponse uploadVideoEntityToResponse(VideoEntity video){
+
+        return new VideoResponse(
+                video.getId(),
+                video.getTitle(),
+                video.getVideoUrl(),
+                video.getCategory(),
+                video.getTrainer().getName(), // Nombre del entrenador
+                video.getLikesCount(),
+                video.getCreatedAt()
+        );
+    }
 }
