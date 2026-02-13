@@ -1,5 +1,6 @@
 package com.spotter_proyect.spotter.core.shared.entities;
 
+import com.spotter_proyect.spotter.core.useCases.trainer.videos.sharedVideos.enums.VideoCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -14,7 +15,11 @@ public class VideoEntity {
     private Long id;
 
     private String title;
-    private String category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private VideoCategory category;
+
     private String videoUrl; // URL de Cloudinary
 
     // Relación: Muchos videos pertenecen a UN entrenador
