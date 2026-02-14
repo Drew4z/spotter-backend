@@ -14,6 +14,8 @@ import com.spotter_proyect.spotter.core.useCases.trainer.videos.sharedVideos.DTO
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
@@ -143,5 +145,11 @@ public class Mapper {
                 video.getLikesCount(),
                 video.getCreatedAt()
         );
+    }
+
+    public List<VideoResponse> listVideosEntityToReponse(List<VideoEntity> videos) {
+        return videos.stream()
+                .map(this::uploadVideoEntityToResponse)
+                .collect(Collectors.toList());
     }
 }

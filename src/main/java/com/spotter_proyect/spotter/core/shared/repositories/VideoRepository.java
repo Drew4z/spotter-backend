@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface VideoRepository extends JpaRepository<VideoEntity, Long> {
 
-    // Método extra para ordenar los videos por fecha (los más nuevos primero)
+    // Método para obtener todos los videos(de todos los trainer y mezclados) que se ven en el feed
     List<VideoEntity> findAllByOrderByCreatedAtDesc();
+
+    // Método para obtener todos los videos de un trainer por su ID
+    List<VideoEntity> findAllByTrainerIdOrderByCreatedAtDesc(Long trainerId);
 }

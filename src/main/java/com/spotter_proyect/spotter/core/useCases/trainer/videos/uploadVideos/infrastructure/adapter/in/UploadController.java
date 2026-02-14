@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/video")
+@RequestMapping("/trainer/video")
 public class UploadController {
 
     private final UploadUseCase uploadUseCase;
