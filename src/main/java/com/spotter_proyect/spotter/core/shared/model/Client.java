@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 public record Client(
         // --- CAMPOS QUE PIDE LA INTERFAZ USER ---
         Long id,
+        String name,
         String email,
         String password,
-        String name,
         String role,
         Boolean isPremium,
         LocalDateTime createdAt,

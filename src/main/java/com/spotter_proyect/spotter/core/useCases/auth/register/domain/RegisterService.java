@@ -22,9 +22,9 @@ public class RegisterService {
     public User register(RegisterRequestDTO request) {
         // 1. Encriptamos la contraseña antes de crear el dominio
         RegisterRequestDTO securedRequest = new RegisterRequestDTO(
+                request.name(),
                 request.email(),
                 passwordEncoder.encode(request.password()),
-                request.name(),
                 request.role(),
                 request.specialty(),
                 request.goals()

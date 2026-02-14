@@ -26,9 +26,9 @@ public class Mapper {
             // 2. Retornamos un TRAINER (que implementa User)
             return new Trainer(
                     null,                       // ID (null porque aún no se guardó en BD)
+                    request.name(),             // Name
                     request.email(),            // Email
                     request.password(),         // Password (ojo: aquí debería llegar encriptada o encriptarse antes)
-                    request.name(),             // Name
                     "TRAINER",                  // Role
                     false,                      // isPremium (default)
                     LocalDateTime.now(),        // createdAt
@@ -42,9 +42,9 @@ public class Mapper {
             // 3. Retornamos un CLIENT (que implementa User)
             return new Client(
                     null,                       // ID
+                    request.name(),             // Name
                     request.email(),            // Email
                     request.password(),         // Password
-                    request.name(),             // Name
                     "CLIENT",                   // Role
                     false,                      // isPremium
                     LocalDateTime.now(),        // createdAt
@@ -62,11 +62,13 @@ public class Mapper {
             entity.setEmail(t.email());
             entity.setPassword(t.password());
             entity.setRole(t.role());
-            entity.setCreatedAt(t.createdAt());
             entity.setIsPremium(t.isPremium());
-            entity.setSpecialty(t.specialty()); // Específico
+            entity.setCreatedAt(t.createdAt());
+            // Específico
             entity.setBiography(t.biography());
+            entity.setSpecialty(t.specialty());
             entity.setPhoneNumber(t.phoneNumber());
+            entity.setIsVerified(t.isVerified());
             return entity;
         }
         if (userDomain instanceof Client c) {
@@ -75,8 +77,8 @@ public class Mapper {
             entity.setEmail(c.email());
             entity.setPassword(c.password());
             entity.setRole(c.role());
-            entity.setCreatedAt(c.createdAt());
             entity.setIsPremium(c.isPremium());
+            entity.setCreatedAt(c.createdAt());
 
             // Específicos
             entity.setGoals(c.goals());
@@ -103,9 +105,9 @@ public class Mapper {
         } else if (userEntity instanceof ClientEntity c) {
             return new Client(
                     c.getId(),
+                    c.getName(),
                     c.getEmail(),
                     c.getPassword(),
-                    c.getName(),
                     c.getRole(),
                     c.getIsPremium(),
                     c.getCreatedAt(),
