@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
         }
 )
 @Data @NoArgsConstructor
-public class VideoLikeEntity {
+public class LikeVideoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class VideoLikeEntity {
 
     private LocalDateTime likedAt = LocalDateTime.now();
 
-    public VideoLikeEntity(UserEntity user, VideoEntity video) {
+    public LikeVideoEntity(UserEntity user, VideoEntity video) {
         this.user = user;
         this.video = video;
     }
