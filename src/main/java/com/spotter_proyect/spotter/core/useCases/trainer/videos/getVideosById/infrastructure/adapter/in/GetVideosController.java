@@ -19,7 +19,7 @@ public class GetVideosController {
 
     private final GetVideosUseCase getVideosUseCase;
 
-    @GetMapping("/getVideo/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<List<VideoResponse>> getTrainerVideos(@PathVariable Long id){
 
         return ResponseEntity.ok(getVideosUseCase.getVideos(id));
