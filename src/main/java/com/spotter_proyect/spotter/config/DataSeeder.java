@@ -1,6 +1,8 @@
 package com.spotter_proyect.spotter.config;
 
 
+import com.spotter_proyect.spotter.core.exceptions.errors.DuplicateActionException;
+import com.spotter_proyect.spotter.core.exceptions.errors.ResourceNotFoundException;
 import com.spotter_proyect.spotter.core.shared.entities.UserEntity;
 import com.spotter_proyect.spotter.core.shared.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

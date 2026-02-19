@@ -20,12 +20,12 @@ public class FollowEntity {
     // Quién sigue (El Cliente)
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
-    private Client client;
+    private Long clientId;
 
     // A quién siguen (El Entrenador)
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
-    private Trainer trainer;
+    private Long trainerId;
 
     private LocalDateTime createdAt = LocalDateTime.now();
 

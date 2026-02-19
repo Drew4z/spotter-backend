@@ -2,8 +2,9 @@ package com.spotter_proyect.spotter.core.useCases.auth.login.domain;
 
 import com.spotter_proyect.spotter.config.security.JwtService;
 import com.spotter_proyect.spotter.core.shared.entities.UserEntity;
+import com.spotter_proyect.spotter.core.shared.mapper.Mapper;
 import com.spotter_proyect.spotter.core.useCases.auth.login.application.port.persistence.LoginRepositoryPort;
-import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginReponse;
+import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginResponse;
 import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +18,9 @@ public class LoginService {
     private final LoginRepositoryPort repositoryPort;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final Mapper mapper;
 
-    public LoginReponse login(LoginRequest request){
+    public LoginResponse login(LoginRequest request){
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -28,16 +30,8 @@ public class LoginService {
         );
 
         UserEntity user = repositoryPort.verifyUser(request);
-
         String jwtToken = jwtService.generateToken(user);
 
-        return new LoginReponse(
-                jwtToken,
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
+        return mapper.loginReqToResponse(jwtToken,user);
     }
-
-
 }

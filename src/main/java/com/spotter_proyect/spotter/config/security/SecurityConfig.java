@@ -22,22 +22,22 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider; // Tu proveedor
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
-                .csrf(csrf -> csrf.disable()) // Necesario para que funcionen los POST
-                .authorizeHttpRequests(auth -> auth
-                        // 1. Rutas PÚBLICAS (Login y Register) -> Permitir a todos
-                        .requestMatchers("/auth/**").permitAll()
+            .csrf(csrf -> csrf.disable()) // Necesario para que funcionen los POST
+            .authorizeHttpRequests(auth -> auth
+                    // 1. Rutas PÚBLICAS (Login y Register) -> Permitir a todos
+                    .requestMatchers("/auth/**").permitAll()
 
-                        // 2. RESTO de rutas -> Requieren TOKEN
-                        .anyRequest().authenticated()
-                )
-                // 3. No guardar sesión (Stateless) porque usamos Tokens
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    // 2. RESTO de rutas -> Requieren TOKEN
+                    .anyRequest().authenticated()
+            )
+            // 3. No guardar sesión (Stateless) porque usamos Tokens
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                // 4. Añadir el proveedor y el filtro
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            // 4. Añadir el proveedor y el filtro
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

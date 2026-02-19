@@ -1,7 +1,7 @@
 package com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.adapter.in;
 
 import com.spotter_proyect.spotter.core.useCases.auth.login.application.port.in.LoginUseCase;
-import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginReponse;
+import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginResponse;
 import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,7 @@ public class LoginController {
     private final LoginUseCase login;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginReponse> login(@RequestBody LoginRequest request){
-
-
-
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
         return ResponseEntity.ok(login.login(request));
     }
 }

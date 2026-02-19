@@ -2,13 +2,12 @@ package com.spotter_proyect.spotter.core.shared.mapper;
 
 
 import com.spotter_proyect.spotter.core.shared.DTO.UserResponse;
-import com.spotter_proyect.spotter.core.shared.entities.ClientEntity;
-import com.spotter_proyect.spotter.core.shared.entities.TrainerEntity;
-import com.spotter_proyect.spotter.core.shared.entities.UserEntity;
-import com.spotter_proyect.spotter.core.shared.entities.VideoEntity;
+import com.spotter_proyect.spotter.core.shared.entities.*;
 import com.spotter_proyect.spotter.core.shared.model.Client;
 import com.spotter_proyect.spotter.core.shared.model.Trainer;
 import com.spotter_proyect.spotter.core.shared.model.User;
+import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginRequest;
+import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.LoginResponse;
 import com.spotter_proyect.spotter.core.useCases.auth.register.infrastructure.DTO.RegisterRequestDTO;
 import com.spotter_proyect.spotter.core.shared.DTO.VideoRequest;
 import com.spotter_proyect.spotter.core.shared.DTO.VideoResponse;
@@ -20,6 +19,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
+
+    //  MAPPER LOGIN METHODS
+    public LoginResponse loginReqToResponse(String token, UserEntity user){
+        return new LoginResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        );
+    }
+
 
     //  MAPPER REGISTER METHODS
     public User registerReqToDomain(RegisterRequestDTO request) {
@@ -179,5 +189,14 @@ public class Mapper {
                 user.getRole(),
                 user.getCreatedAt()
         );
+    }
+
+    // MAPPER FOLLOW METHODS
+
+    public FollowEntity fill(Long clientId, Long trainerId) {
+        FollowEntity newFollow = new FollowEntity();
+            newFollow.setClientId(clientId);
+            newFollow.setTrainerId(trainerId);
+        return newFollow;
     }
 }
