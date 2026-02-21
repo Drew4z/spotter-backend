@@ -17,16 +17,21 @@ public class VideoEntity {
     private String title;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "category")
     private VideoCategory category;
 
+    @Column(name="videoUrl")
     private String videoUrl; // URL de Cloudinary
 
     // Relación: Muchos videos pertenecen a UN entrenador
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
     private UserEntity trainer;
+
+    @Column(name="likesCount")
     private Integer likesCount = 0; // Contador caché
+
+    @Column(name="createdAt")
     private LocalDateTime createdAt;
 
     @PrePersist

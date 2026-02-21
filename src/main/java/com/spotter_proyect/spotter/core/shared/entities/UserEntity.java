@@ -1,5 +1,6 @@
 package com.spotter_proyect.spotter.core.shared.entities;
 
+import com.spotter_proyect.spotter.core.shared.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +37,8 @@ public class UserEntity implements UserDetails {
     // Roles: "ADMIN", "CLIENT", "TRAINER"
     // Usamos String simple para no complicarnos con tablas extra de roles
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Roles role;
 
     @Column(nullable = false)
     private Boolean isPremium;
@@ -56,7 +58,7 @@ public class UserEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Convertimos tu String "role" en un objeto que Spring entienda
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.toString()));
     }
 
     // 3. ¿Cuál es la contraseña?

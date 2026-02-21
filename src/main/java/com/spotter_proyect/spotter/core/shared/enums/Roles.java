@@ -1,7 +1,7 @@
 package com.spotter_proyect.spotter.core.shared.enums;
 
-public enum Role {
+public enum Roles {
     ADMIN,
     CLIENT,
-    ROLE
+    TRAINER
 }

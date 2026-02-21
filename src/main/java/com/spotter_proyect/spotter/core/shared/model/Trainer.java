@@ -1,5 +1,8 @@
 package com.spotter_proyect.spotter.core.shared.model;
 
+import com.spotter_proyect.spotter.core.shared.enums.Roles;
+import com.spotter_proyect.spotter.core.shared.enums.SpecialityTrainer;
+
 import java.time.LocalDateTime;
 
 // Fíjate: No hay imports de Jakarta/JPA. ¡Es puro!
@@ -8,11 +11,11 @@ public record Trainer(
         String name,
         String email,
         String password,
-        String role,
+        Roles role,
         Boolean isPremium,
         LocalDateTime createdAt,
         // Campos específicos de Trainer
-        String specialty,
+        SpecialityTrainer specialty,
         String biography,
         String phoneNumber,
         Boolean isVerified

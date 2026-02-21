@@ -1,5 +1,6 @@
 package com.spotter_proyect.spotter.core.shared.entities;
 
+import com.spotter_proyect.spotter.core.shared.enums.SpecialityTrainer;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,10 +16,13 @@ public class TrainerEntity extends UserEntity {
     @Column(columnDefinition = "TEXT")
     private String biography;
 
-    private String specialty; // Yoga, Crossfit...
+    @Enumerated(EnumType.STRING)
+    @Column(name="specialty")
+    private SpecialityTrainer specialty; // Yoga, Crossfit...
 
     private String phoneNumber; // El dato "oculto" hasta el match
 
+    @Column(name="isVerified")
     private Boolean isVerified = false;
 
     // Relación: Un entrenador tiene muchos videos

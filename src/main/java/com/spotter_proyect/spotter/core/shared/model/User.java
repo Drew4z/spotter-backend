@@ -1,6 +1,8 @@
 package com.spotter_proyect.spotter.core.shared.model;
 
 
+import com.spotter_proyect.spotter.core.shared.enums.Roles;
+
 import java.time.LocalDateTime;
 
 public interface User {
@@ -10,7 +12,7 @@ public interface User {
     String name();
     String email();
     String password();
-    String role();
+    Roles role();
     Boolean isPremium();
     LocalDateTime createdAt();
 }

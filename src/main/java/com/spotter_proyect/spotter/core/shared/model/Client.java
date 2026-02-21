@@ -1,5 +1,8 @@
 package com.spotter_proyect.spotter.core.shared.model;
 
+import com.spotter_proyect.spotter.core.shared.enums.GoalsClient;
+import com.spotter_proyect.spotter.core.shared.enums.Roles;
+
 import java.time.LocalDateTime;
 
 public record Client(
@@ -8,11 +11,11 @@ public record Client(
         String name,
         String email,
         String password,
-        String role,
+        Roles role,
         Boolean isPremium,
         LocalDateTime createdAt,
 
         // --- CAMPOS EXCLUSIVOS DE CLIENT ---
-        String goals
+        GoalsClient goals
 )implements User {
 }

@@ -3,6 +3,7 @@ package com.spotter_proyect.spotter.core.shared.mapper;
 
 import com.spotter_proyect.spotter.core.shared.DTO.UserResponse;
 import com.spotter_proyect.spotter.core.shared.entities.*;
+import com.spotter_proyect.spotter.core.shared.enums.Roles;
 import com.spotter_proyect.spotter.core.shared.model.Client;
 import com.spotter_proyect.spotter.core.shared.model.Trainer;
 import com.spotter_proyect.spotter.core.shared.model.User;
@@ -34,7 +35,7 @@ public class Mapper {
     //  MAPPER REGISTER METHODS
     public User registerReqToDomain(RegisterRequestDTO request) {
         // 1. Validamos el rol para saber qué constructor usar
-        if ("TRAINER".equalsIgnoreCase(request.role())) {
+        if (request.role() == Roles.TRAINER) {
 
             // 2. Retornamos un TRAINER (que implementa User)
             return new Trainer(
@@ -42,7 +43,7 @@ public class Mapper {
                     request.name(),             // Name
                     request.email(),            // Email
                     request.password(),         // Password (ojo: aquí debería llegar encriptada o encriptarse antes)
-                    "TRAINER",                  // Role
+                    request.role(),                  // Role
                     false,                      // isPremium (default)
                     LocalDateTime.now(),        // createdAt
                     // Campos específicos de Trainer
@@ -58,7 +59,7 @@ public class Mapper {
                     request.name(),             // Name
                     request.email(),            // Email
                     request.password(),         // Password
-                    "CLIENT",                   // Role
+                    request.role(),                   // Role
                     false,                      // isPremium
                     LocalDateTime.now(),        // createdAt
                     // Campos específicos de Client
