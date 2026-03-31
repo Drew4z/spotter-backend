@@ -1,6 +1,7 @@
 package com.spotter_proyect.spotter.core.shared.mapper;
 
 
+import com.spotter_proyect.spotter.core.exceptions.errors.ResourceNotFoundException;
 import com.spotter_proyect.spotter.core.shared.DTO.UserResponse;
 import com.spotter_proyect.spotter.core.shared.entities.*;
 import com.spotter_proyect.spotter.core.shared.enums.Roles;
@@ -11,6 +12,7 @@ import com.spotter_proyect.spotter.core.useCases.auth.login.infrastructure.DTO.L
 import com.spotter_proyect.spotter.core.useCases.auth.register.infrastructure.DTO.RegisterRequestDTO;
 import com.spotter_proyect.spotter.core.shared.DTO.VideoRequest;
 import com.spotter_proyect.spotter.core.shared.DTO.VideoResponse;
+import com.spotter_proyect.spotter.core.useCases.auth.register.infrastructure.DTO.RegisterResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -101,34 +103,25 @@ public class Mapper {
         throw new IllegalArgumentException("Dominio desconocido: " + userDomain.getClass());
     }
 
-    public User authEntityToDomain(UserEntity userEntity) {
+    public RegisterResponseDTO authEntityToDomain(UserEntity userEntity) {
         if (userEntity instanceof TrainerEntity t) {
-            return new Trainer(
+
+            return new RegisterResponseDTO(
                     t.getId(),
                     t.getName(),
                     t.getEmail(),
-                    t.getPassword(),
-                    t.getRole(),
-                    t.getIsPremium(),
-                    t.getCreatedAt(),
-                    t.getSpecialty(),
-                    t.getBiography(),
-                    t.getPhoneNumber(),
-                    t.getIsVerified()
+                    t.getRole()
             );
+
         } else if (userEntity instanceof ClientEntity c) {
-            return new Client(
+            return new RegisterResponseDTO(
                     c.getId(),
                     c.getName(),
                     c.getEmail(),
-                    c.getPassword(),
-                    c.getRole(),
-                    c.getIsPremium(),
-                    c.getCreatedAt(),
-                    c.getGoals()
+                    c.getRole()
             );
         }
-        throw new IllegalArgumentException("Entidad desconocida: " + userEntity.getClass());
+        throw new ResourceNotFoundException("The user could not be found");
     }
 
     //  MAPPER VIDEOS METHODS

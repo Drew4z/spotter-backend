@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -17,7 +19,7 @@ public class GlobalExceptionHandler {
     // Se activa si lanzas: throw new ResourceNotFoundException("Entrenador no encontrado");
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleNotFound(ResourceNotFoundException ex) {
-        ApiErrorResponse error = new ApiErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        ApiErrorResponse error = new ApiErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
@@ -25,7 +27,7 @@ public class GlobalExceptionHandler {
     // Se activa si lanzas: throw new DuplicateActionException("Ya sigues a este entrenador");
     @ExceptionHandler(DuplicateActionException.class)
     public ResponseEntity<ApiErrorResponse> handleDuplicateAction(DuplicateActionException ex) {
-        ApiErrorResponse error = new ApiErrorResponse(ex.getMessage(), HttpStatus.CONFLICT.value());
+        ApiErrorResponse error = new ApiErrorResponse(ex.getMessage(), HttpStatus.CONFLICT.value(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
@@ -35,14 +37,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleValidationErrors(org.springframework.web.bind.MethodArgumentNotValidException ex) {
         // Extraemos el mensaje del primer error de validación
         String errorMessage = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
-        ApiErrorResponse error = new ApiErrorResponse("Error en los datos: " + errorMessage, HttpStatus.BAD_REQUEST.value());
+        ApiErrorResponse error = new ApiErrorResponse("Error en los datos: " + errorMessage, HttpStatus.BAD_REQUEST.value(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     // CASO 4: Error de autorización
     @ExceptionHandler(UnauthorizedActionException.class)
     public ResponseEntity<ApiErrorResponse> handleUnauthorizedAction(UnauthorizedActionException ex) {
-        ApiErrorResponse error = new ApiErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN.value());
+        ApiErrorResponse error = new ApiErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN.value(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
@@ -51,7 +53,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGenericError(Exception ex) {
         // Aquí podrías imprimir ex.printStackTrace() en la consola para ti
-        ApiErrorResponse error = new ApiErrorResponse("Ha ocurrido un error interno en el servidor.", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        ApiErrorResponse error = new ApiErrorResponse("Ha ocurrido un error interno en el servidor.", HttpStatus.INTERNAL_SERVER_ERROR.value(), LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }

@@ -2,7 +2,6 @@ package com.spotter_proyect.spotter.core.useCases.client.likeVideo.domain;
 
 
 import com.spotter_proyect.spotter.core.exceptions.errors.ResourceNotFoundException;
-import com.spotter_proyect.spotter.core.shared.entities.LikeVideoEntity;
 import com.spotter_proyect.spotter.core.shared.entities.UserEntity;
 import com.spotter_proyect.spotter.core.shared.entities.VideoEntity;
 import com.spotter_proyect.spotter.core.shared.repositories.LikeVideoRepository;
@@ -12,8 +11,6 @@ import com.spotter_proyect.spotter.core.useCases.client.likeVideo.application.po
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

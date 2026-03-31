@@ -4,7 +4,6 @@ import com.spotter_proyect.spotter.core.useCases.client.followTrainer.applicatio
 import com.spotter_proyect.spotter.core.useCases.client.followTrainer.domain.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 @RequiredArgsConstructor
