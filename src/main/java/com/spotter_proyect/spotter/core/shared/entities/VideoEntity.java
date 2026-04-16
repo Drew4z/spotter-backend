@@ -23,6 +23,9 @@ public class VideoEntity {
     @Column(name="videoUrl")
     private String videoUrl; // URL de Cloudinary
 
+    @Column(name="frontPagePath")
+    private String frontPagePath;
+
     // Relación: Muchos videos pertenecen a UN entrenador
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)

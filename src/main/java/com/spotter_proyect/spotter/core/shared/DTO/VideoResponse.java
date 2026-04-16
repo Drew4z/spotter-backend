@@ -8,6 +8,7 @@ public record VideoResponse(
         Long id,
         String title,
         String videoUrl,
+        String frontPagePath,
         VideoCategory category,
         String trainerName, // Importante: devolvemos el nombre del creador
         Integer likes,

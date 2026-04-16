@@ -40,6 +40,8 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    private String pathAvatar;
+
     @Column(nullable = false)
     private Boolean isPremium;
 

@@ -4,6 +4,5 @@ import com.spotter_proyect.spotter.core.shared.entities.VideoEntity;
 import com.spotter_proyect.spotter.core.shared.DTO.VideoResponse;
 
 public interface UploadRepositoryPort {
-
     VideoResponse save(VideoEntity videoToSave);
 }

@@ -12,6 +12,7 @@ public record Trainer(
         String email,
         String password,
         Roles role,
+        String pathAvatar,
         Boolean isPremium,
         LocalDateTime createdAt,
         // Campos específicos de Trainer

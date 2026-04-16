@@ -41,11 +41,12 @@ public class Mapper {
 
             // 2. Retornamos un TRAINER (que implementa User)
             return new Trainer(
-                    null,                       // ID (null porque aún no se guardó en BD)
+                    null,                    // ID (null porque aún no se guardó en BD)
                     request.name(),             // Name
                     request.email(),            // Email
                     request.password(),         // Password (ojo: aquí debería llegar encriptada o encriptarse antes)
-                    request.role(),                  // Role
+                    request.role(),             // Role
+                    null,                       // Avatar path
                     false,                      // isPremium (default)
                     LocalDateTime.now(),        // createdAt
                     // Campos específicos de Trainer
@@ -57,11 +58,12 @@ public class Mapper {
         } else {
             // 3. Retornamos un CLIENT (que implementa User)
             return new Client(
-                    null,                       // ID
+                    null,                    // ID
                     request.name(),             // Name
                     request.email(),            // Email
                     request.password(),         // Password
-                    request.role(),                   // Role
+                    request.role(),             // Role
+                    null,                       // Avatar path
                     false,                      // isPremium
                     LocalDateTime.now(),        // createdAt
                     // Campos específicos de Client
@@ -129,13 +131,13 @@ public class Mapper {
     public VideoEntity uploadVideoRequestToEntity(VideoRequest request, UserEntity trainer){
 
         VideoEntity video = new VideoEntity();
-        video.setTitle(request.title());
-        video.setVideoUrl(request.videoUrl());
-        video.setCategory(request.category());
-        video.setCreatedAt(LocalDateTime.now());
-        video.setLikesCount(0);
-        video.setTrainerEntity(trainer); // A
-
+            video.setTitle(request.title());
+            video.setVideoUrl(request.videoUrl());
+            video.setFrontPagePath(request.frontPage());
+            video.setCategory(request.category());
+            video.setCreatedAt(LocalDateTime.now());
+            video.setLikesCount(0);
+            video.setTrainerEntity(trainer); // A
         return video;
     }
 

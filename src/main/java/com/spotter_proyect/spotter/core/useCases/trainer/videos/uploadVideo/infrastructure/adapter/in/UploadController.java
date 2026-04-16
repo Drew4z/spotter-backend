@@ -21,10 +21,7 @@ public class UploadController {
     @PostMapping("/upload")
     public ResponseEntity<VideoResponse> uploadVideo(@RequestBody VideoRequest request){
 
-        VideoResponse response = uploadUseCase.upload(request);
-
-        return ResponseEntity.ok()
-                .body(response);
+        return ResponseEntity.ok(uploadUseCase.upload(request));
 
     }
 

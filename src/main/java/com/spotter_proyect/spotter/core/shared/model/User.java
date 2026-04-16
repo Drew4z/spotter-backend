@@ -13,6 +13,7 @@ public interface User {
     String email();
     String password();
     Roles role();
+    String pathAvatar();
     Boolean isPremium();
     LocalDateTime createdAt();
 }
