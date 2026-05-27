@@ -1,0 +1,71 @@
+// ============================================================
+// Spotter DB — dbdiagram.io schema
+// Pega este código en https://dbdiagram.io
+// ============================================================
+
+Table users {
+  id         bigint      [pk, increment, note: "PK compartida con clients y trainers (JOINED inheritance)"]
+  name       varchar     [not null]
+  email      varchar     [unique, not null]
+  password   varchar     [not null]
+  role       varchar     [not null, note: "CLIENT | TRAINER | ADMIN"]
+  pathAvatar text
+  isPremium  boolean     [not null, default: false]
+  isBanned   boolean     [not null, default: false]
+  createdAt  timestamp
+}
+
+Table clients {
+  user_id    bigint      [pk, ref: - users.id, note: "FK y PK — hereda de users"]
+  goals      varchar     [note: "PERDER_PESO | GANAR_MUSCULO | MEJORAR_RESISTENCIA | etc."]
+}
+
+Table trainers {
+  user_id    bigint      [pk, ref: - users.id, note: "FK y PK — hereda de users"]
+  biography  text
+  specialty  varchar     [note: "YOGA | CROSSFIT | BODYBUILDING | CALISTENIA | etc."]
+  phoneNumber varchar
+  isVerified boolean     [default: false]
+}
+
+Table videos {
+  id           bigint    [pk, increment]
+  title        varchar
+  category     varchar   [not null, note: "CARDIO | FUERZA | YOGA | NUTRICION | etc."]
+  videoUrl     varchar
+  frontPagePath varchar
+  trainer_id   bigint    [not null, ref: > users.id]
+  likesCount   int       [default: 0]
+  createdAt    timestamp
+}
+
+Table trainer_followers {
+  id         bigint      [pk, increment]
+  client_id  bigint      [not null, ref: > clients.user_id]
+  trainer_id bigint      [not null, ref: > trainers.user_id]
+  createdAt  timestamp
+
+  indexes {
+    (client_id, trainer_id) [unique, name: "uq_follow"]
+  }
+}
+
+Table video_likes {
+  id        bigint       [pk, increment]
+  user_id   bigint       [not null, ref: > users.id]
+  video_id  bigint       [not null, ref: > videos.id]
+  likedAt   timestamp
+
+  indexes {
+    (user_id, video_id) [unique, name: "uq_like"]
+  }
+}
+
+Table contact_requests {
+  id         bigint      [pk, increment]
+  client_id  bigint      [not null, ref: > clients.user_id]
+  trainer_id bigint      [not null, ref: > trainers.user_id]
+  status     varchar     [note: "PENDING | ACCEPTED | REJECTED"]
+  message    varchar
+  createdAt  timestamp
+}
