@@ -1,5 +1,6 @@
 package com.spotter_proyect.spotter.core.shared.entities;
 
+import com.spotter_proyect.spotter.core.shared.enums.VideoCategory;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -14,15 +15,30 @@ public class VideoEntity {
     private Long id;
 
     private String title;
-    private String category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "category")
+    private VideoCategory category;
+
+    @Column(name="videoUrl")
     private String videoUrl; // URL de Cloudinary
+
+    @Column(name="frontPagePath")
+    private String frontPagePath;
 
     // Relación: Muchos videos pertenecen a UN entrenador
     @ManyToOne
     @JoinColumn(name = "trainer_id", nullable = false)
-    private TrainerEntity trainer;
+    private UserEntity trainerEntity;
+
+    @Column(name="likesCount")
     private Integer likesCount = 0; // Contador caché
+
+    @Column(name="createdAt")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private java.util.List<LikeVideoEntity> likes = new java.util.ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
