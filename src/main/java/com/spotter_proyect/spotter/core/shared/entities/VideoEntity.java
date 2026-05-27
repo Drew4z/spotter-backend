@@ -37,6 +37,9 @@ public class VideoEntity {
     @Column(name="createdAt")
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "video", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private java.util.List<LikeVideoEntity> likes = new java.util.ArrayList<>();
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

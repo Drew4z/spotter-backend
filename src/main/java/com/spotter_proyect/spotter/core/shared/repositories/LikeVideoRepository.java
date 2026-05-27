@@ -11,5 +11,5 @@ public interface LikeVideoRepository extends JpaRepository<LikeVideoEntity, Long
 
     Optional<LikeVideoEntity> findByVideoIdAndUserId(Long videoId, Long userId);
 
-
+    java.util.List<LikeVideoEntity> findByUserId(Long userId);
 }

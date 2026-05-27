@@ -1,6 +1,5 @@
 package com.spotter_proyect.spotter.config.security;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -22,22 +26,40 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider; // Tu proveedor
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("http://localhost:*", "http://127.0.0.1:*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Necesario para que funcionen los POST
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-
-                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                    // 1. Rutas PÚBLICAS (Login y Register) -> Permitir a todos
+                    // Swagger / OpenAPI — acceso público
+                    .requestMatchers(
+                            "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/swagger-resources/**",
+                            "/webjars/**"
+                    ).permitAll()
+                    // Rutas públicas de autenticación
                     .requestMatchers("/auth/**").permitAll()
-
-                    // 2. RESTO de rutas -> Requieren TOKEN
+                    // Listado de entrenadores — requiere autenticación (cualquier rol)
+                    .requestMatchers("/trainers/**").authenticated()
+                    // Resto requiere token
                     .anyRequest().authenticated()
             )
-            // 3. No guardar sesión (Stateless) porque usamos Tokens
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-            // 4. Añadir el proveedor y el filtro
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

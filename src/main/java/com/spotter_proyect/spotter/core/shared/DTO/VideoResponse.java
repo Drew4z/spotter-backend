@@ -10,7 +10,9 @@ public record VideoResponse(
         String videoUrl,
         String frontPagePath,
         VideoCategory category,
-        String trainerName, // Importante: devolvemos el nombre del creador
+        String trainerName,
+        Long trainerId, // ID del entrenador para redirecciones en el frontend
+        String trainerAvatar, // Avatar del entrenador para el feed
         Integer likes,
         LocalDateTime createdAt
 ) {}

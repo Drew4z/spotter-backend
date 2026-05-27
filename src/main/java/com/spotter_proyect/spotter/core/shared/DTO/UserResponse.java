@@ -9,6 +9,15 @@ public record UserResponse(
         String name,
         String email,
         Roles role,
+        String pathAvatar,
+        Boolean isPremium,
+        Boolean isBanned,
+        String biography,
+        String specialty,
+        String phoneNumber,
+        Boolean isVerified,
+        Long followersCount,
+        Long followingCount,
         LocalDateTime createAt
 ) {
 }

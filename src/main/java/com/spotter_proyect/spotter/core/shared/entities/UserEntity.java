@@ -40,10 +40,14 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Roles role;
 
+    @Column(columnDefinition = "TEXT")
     private String pathAvatar;
 
-    @Column(nullable = false)
-    private Boolean isPremium;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean isPremium = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean isBanned = false;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
