@@ -62,10 +62,9 @@ HTTP Request → Controller (Adapter In)
 
 Asegúrate de tener instalado en tu máquina:
 
-- **Java 21** (JDK) — [Descargar](https://adoptium.net/)
-- **Apache Maven 3.9+** — [Descargar](https://maven.apache.org/download.cgi)
-- **PostgreSQL 14+** — [Descargar](https://www.postgresql.org/download/) o vía Docker
-- **Docker** *(opcional, para despliegue en contenedor)* — [Descargar](https://www.docker.com/products/docker-desktop/)
+- **Java 21** (JDK) — [Descargar](https://adoptium.net/) *(solo para ejecución local)*
+- **Apache Maven 3.9+** — [Descargar](https://maven.apache.org/download.cgi) *(solo para ejecución local)*
+- **Docker y Docker Compose** — [Descargar](https://www.docker.com/products/docker-desktop/) *(recomendado)*
 - **Git** — [Descargar](https://git-scm.com/)
 
 ---
@@ -81,67 +80,64 @@ cd spotter_backend
 
 ### 2. Configurar variables de entorno
 
-Crea o edita el archivo `src/main/resources/application.properties` con tus valores locales. Puedes usar el siguiente ejemplo como plantilla:
+Copia el archivo de ejemplo y rellena tus valores:
 
-```properties
-# Servidor
-server.port=8081
-server.servlet.context-path=/api
-
-# Base de datos PostgreSQL
-spring.datasource.url=jdbc:postgresql://localhost:5433/spotter_db
-spring.datasource.username=postgres
-spring.datasource.password=${DB_PASSWORD}
-spring.datasource.driver-class-name=org.postgresql.Driver
-
-# JPA / Hibernate
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
-
-# Archivos multipart
-spring.servlet.multipart.max-file-size=10MB
-spring.servlet.multipart.max-request-size=10MB
-
-# JWT
-security.jwt.secret-key=${JWT_SECRET_KEY}
-security.jwt.expiration-time=86400000
-
+```bash
+cp .env.example .env
 ```
 
-> ⚠️ **Importante:** La `secret-key` debe ser una cadena codificada en Base64 de al menos 256 bits. Puedes generar una con: `openssl rand -base64 32`
+Edita el `.env` con tus credenciales:
 
-### 3. Crear la base de datos
+```env
+JWT_SECRET_KEY=tu_clave_base64_aqui
+DB_PASSWORD=tu_password_aqui
+```
+
+> ⚠️ **Importante:** `JWT_SECRET_KEY` debe ser una cadena codificada en Base64 de al menos 256 bits. Puedes generar una con:
+> ```bash
+> openssl rand -base64 32
+> ```
+
+### 3. Opción A — Arrancar con Docker Compose *(recomendado)*
+
+Levanta el backend y la base de datos PostgreSQL con un solo comando:
+
+```bash
+docker compose up --build
+```
+
+Esto arranca dos servicios:
+- **`db`** — PostgreSQL 15 en el puerto `5433`, con volumen persistente
+- **`backend`** — API Spring Boot en el puerto `8081`, que espera a que la base de datos esté lista
+
+Para detener los servicios:
+
+```bash
+docker compose down
+```
+
+Para detener y eliminar también los volúmenes (borra los datos de la BD):
+
+```bash
+docker compose down -v
+```
+
+### 4. Opción B — Arrancar localmente con Maven
+
+Si prefieres ejecutar el backend sin Docker, necesitarás una instancia de PostgreSQL corriendo localmente con una base de datos llamada `spotter_db`:
 
 ```sql
 CREATE DATABASE spotter_db;
 ```
 
-### 4. Opción A — Arrancar localmente con Maven
+Luego exporta las variables de entorno y arranca la aplicación:
 
 ```bash
-mvn clean package -DskipTests
-java -jar target/spotter-0.0.1-SNAPSHOT.jar
-```
+# Exportar variables (Linux/macOS)
+export JWT_SECRET_KEY=tu_clave_base64_aqui
+export DB_PASSWORD=tu_password_aqui
 
-O directamente desde Maven:
-
-```bash
 mvn spring-boot:run
-```
-
-### 5. Opción B — Arrancar con Docker
-
-```bash
-# Construir la imagen
-docker build -t spotter-backend .
-
-# Arrancar el contenedor (asegúrate de que PostgreSQL es accesible)
-docker run -p 8081:8081 \
-  -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5433/spotter_db \
-  -e SPRING_DATASOURCE_PASSWORD=TU_PASSWORD \
-  -e JWT_SECRET_KEY=TU_CLAVE_BASE64 \
-  spotter-backend
 ```
 
 La API estará disponible en: `http://localhost:8081/api`
